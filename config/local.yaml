@@ -1,4 +1,4 @@
 env: "dev"
-storage_path:"storae/storage.db"
-https_server:
-  address:"localhost:8081"
+storage_path: "storae/storage.db"
+http_server:
+  address: "localhost:8081"

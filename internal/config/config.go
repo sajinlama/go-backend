@@ -15,7 +15,7 @@ type HttpsServer struct {
 type Config struct {
 	Env         string      `yaml:"env" env:"ENV" env-required:"true"`
 	StoragePath string      `yaml:"storage_path" env-required:"true"`
-	HttpsServer HttpsServer `yaml:"http_server"`
+	HttpsServer HttpsServer `yaml:"http_server"` // Named field
 }
 
 func MustLoad() *Config {
@@ -28,18 +28,17 @@ func MustLoad() *Config {
 		configPath = *flags
 	}
 	if configPath == "" {
-		log.Fatal(("Config path is not set"))
+		log.Fatal("Config path is not set")
 	}
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		log.Fatalf("config file does not exist : %s", configPath)
+		log.Fatalf("config file does not exist: %s", configPath)
 	}
 	var cfg Config
 
 	err := cleanenv.ReadConfig(configPath, &cfg)
 	if err != nil {
-		log.Fatalf("con not read config file %s", err.Error())
-
+		log.Fatalf("cannot read config file: %s", err.Error())
 	}
 	return &cfg
 }
