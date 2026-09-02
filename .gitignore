@@ -1,0 +1,52 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+
+# Test artifacts
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependency directories (vendor directory)
+# Uncomment if you do not want to commit vendored dependencies
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Build & live reload tools (e.g., Air)
+tmp/
+
+# Database files (local development SQLite, etc.)
+*.db
+*.sqlite
+*.sqlite3
+
+# OS generated files
+Thumbs.db
