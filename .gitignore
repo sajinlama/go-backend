@@ -52,3 +52,5 @@ tmp/
 Thumbs.db
 
 storage
+
+/config
