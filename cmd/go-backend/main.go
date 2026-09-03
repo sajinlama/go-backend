@@ -6,15 +6,14 @@ import (
 	"net/http"
 
 	"github.com/sajinlama/go-backend/internal/config"
+	"github.com/sajinlama/go-backend/internal/http/handlers/students"
 )
 
 func main() {
 	cfg := config.MustLoad()
 
 	router := http.NewServeMux()
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome to students api"))
-	})
+	router.HandleFunc("POST /api/students", students.New())
 
 	server := http.Server{
 		Addr:    cfg.HttpsServer.Add,
