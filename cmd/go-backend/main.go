@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/sajinlama/go-backend/internal/config"
+	"github.com/sajinlama/go-backend/internal/http/handlers/students"
+	"github.com/sajinlama/go-backend/internal/storage/sqlite"
 	"log"
 	"log/slog"
 	"net/http"
@@ -9,16 +12,21 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/sajinlama/go-backend/internal/config"
-	"github.com/sajinlama/go-backend/internal/http/handlers/students"
 )
 
 func main() {
 	cfg := config.MustLoad()
 
+	//setups database
+
+	storage, err1 := sqlite.New(cfg)
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+	slog.Info("storage initialize ", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
+
 	router := http.NewServeMux()
-	router.HandleFunc("POST /api/students", students.New())
+	router.HandleFunc("POST /api/students", students.New(storage))
 
 	server := http.Server{
 		Addr:    cfg.HttpsServer.Add,
