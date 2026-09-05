@@ -2,7 +2,7 @@ package types
 
 type Students struct {
 	Id    int
-	Name  string
-	Email string
-	Age   string
+	Name  string `validate:"required"`
+	Email string `validate:"required"`
+	Age   string `validate:"required"`
 }
