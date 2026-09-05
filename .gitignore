@@ -51,6 +51,6 @@ tmp/
 # OS generated files
 Thumbs.db
 
-storage
+/storage
 
 /config
