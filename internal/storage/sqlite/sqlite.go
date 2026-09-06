@@ -71,3 +71,42 @@ func (s *Sqlite) GetStudentById(id int64) (types.Students, error) {
 	}
 	return students, nil
 }
+func (s *Sqlite) GetAllStudents() ([]types.Students, error) {
+
+	stmt, err := s.Db.Prepare(
+		"SELECT id, name, email, age FROM students",
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var students []types.Students
+
+	for rows.Next() {
+		var student types.Students
+
+		err := rows.Scan(
+			&student.Id,
+			&student.Name,
+			&student.Email,
+			&student.Age,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		students = append(students, student)
+	}
+
+	return students, nil
+}
