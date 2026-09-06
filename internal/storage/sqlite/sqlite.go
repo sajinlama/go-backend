@@ -2,8 +2,10 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sajinlama/go-backend/internal/config"
+	"github.com/sajinlama/go-backend/internal/types"
 )
 
 type Sqlite struct {
@@ -49,4 +51,23 @@ func (s *Sqlite) CreateStudents(name string, email string, age int) (int64, erro
 	}
 
 	return lastid, nil
+}
+
+func (s *Sqlite) GetStudentById(id int64) (types.Students, error) {
+	stmt, err := s.Db.Prepare("  SELECT id, name, email, age FROM students WHERE id = $1")
+	if err != nil {
+		return types.Students{}, err
+	}
+	defer stmt.Close()
+
+	var students types.Students
+	err = stmt.QueryRow(id).Scan(&students.Id, &students.Name, &students.Email, &students.Age)
+	if err != nil {
+
+		if err == sql.ErrNoRows {
+			return types.Students{}, fmt.Errorf("no students fround with id %v", fmt.Sprint(id))
+		}
+		return types.Students{}, fmt.Errorf("query not found :%w", err)
+	}
+	return students, nil
 }
